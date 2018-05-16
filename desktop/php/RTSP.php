@@ -114,7 +114,7 @@ foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
  </div>
 </fieldset>
 </form>
-<div class="col-sm-6">
+<div class="col-sm-8">
     <form class="form-horizontal">
         <fieldset>
             <legend>{{Paramètres}}</legend>
@@ -149,32 +149,39 @@ foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
 							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="url"/>
 						</div>
 					</div>
+                    
+                    <div class="form-group">
+						<label class="col-sm-3 control-label">{{Codec Video}}</label>
+						<div class="col-sm-3">
+							<input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="codec" placeholder="{{Forcage du codec}}"/> auto par défaut
+						</div>
+					  <label class="col-sm-3 control-label">{{Résolution en pixels}}</label>
+					  <div class="col-sm-3">
+                        <select type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="size" >
+                          <option value="640x480">640 x 480</option>
+                          <option value="800x600">800 x 600</option>
+                          <option value="1024x768">1024 x 768</option>
+                          <option value="1280x720">1280 x 720</option>
+                          <option value="1920x1080">1920 x 1080</option>
+                          <option value="3840x2160">3840 x 2160</option>
+                        </select>
+					  </div>
+					</div>
+                    
 					<div class="form-group">
 					  <label class="col-sm-3 control-label">{{Nom de la caméra}}</label>
 					  <div class="col-sm-3">
 					    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="name"/>
 					  </div>
-						<label class="col-sm-3 control-label">{{Résolution en pixels}}</label>
-					  <div class="col-sm-3">
-              <select type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="size" >
-                <option value="640x480">640 x 480</option>
-                <option value="800x600">800 x 600</option>
-                <option value="1024x768">1024 x 768</option>
-                <option value="1280x720">1280 x 720</option>
-                <option value="1920x1080">1920 x 1080</option>
-                <option value="3840x2160">3840 x 2160</option>
-              </select>
-						</div>
 					</div>
         </fieldset>
     </form>
 </div>
 
-<div class="col-sm-6">
+<div class="col-sm-8">
     <form class="form-horizontal">
         <fieldset>
             <legend>{{Options}}</legend>
-
 						<div class="form-group">
 						  <label class="col-sm-3 control-label">{{Délai (en seconde)}}</label>
 						  <div class="col-sm-3">
@@ -190,6 +197,15 @@ foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
 						  <div class="col-sm-3">
 						    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="targetFolder" placeholder="{{/tmp}}"/> ne modifier que si vous savez ce que vous faites
 						  </div>
+						  <label class="col-sm-3 control-label">{{Position Horodatage}}</label>
+                          <div class="col-sm-3">
+                            <select type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="infoposition" >
+                              <option value="h_gauche">Haut gauche</option>
+                              <option value="h_droit">Haut droit</option>
+                              <option value="b_gauche">Bas gauche</option>
+                              <option value="b_droit">Bas droit</option>
+                            </select>
+                          </div>  
 						</div>
 						<div class="form-group">
 						  <label class="col-sm-3 control-label">{{Nom d'utilisateur}}</label>
@@ -222,7 +238,7 @@ foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
         </fieldset>
     </form>
 </div>
-<div class="col-sm-6">
+<div class="col-sm-8">
     <form class="form-horizontal">
         <fieldset>
             <legend>{{Test}}</legend>

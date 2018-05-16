@@ -31,20 +31,44 @@ if [ -d "$nginxDirectory" ]; then
   chown www-data:www-data /usr/share/nginx/www/jeedom/plugins/RTSP/captures/snapshot_$4.jpg
 fi
 
-url=""
-if [ ${10} != '' ]
+format=""
+if [ "${10}" != "auto" ]
 then
-  url="${10}:${11}@"
+  format="-f ${10}"
 fi
+
+width=$(echo $8 | cut -d'x' -f 1)
+height=$(echo $8 | cut -d'x' -f 2)
+posx=20
+posy=20
+if [ "${11}" = "h_droit" ]
+then
+  posx=$(($width - 210))
+fi
+if [ "${11}" = "b_gauche" ]
+then
+  posy=$(($height - 30))
+fi
+if [ "${11}" = "b_droit" ]
+then
+  posx=$(($width - 210))
+  posy=$(($height - 30))
+fi
+  
+url=""
+if [ ${12} != '' ]
+then
+  url="${12}:${13}@"
+fi 
 complement=$(echo "$7" | sed 's/[\]//g')    # substitute to escape the ampersand
 while sleep $6
 do
 if [ $9 -eq 1 ]
 then
-  datetime=$(echo $(date +%Y-%m-%dT%H\\:%M\\:%S))
-  displayInfo="drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf: text='$datetime': fontcolor=black@0.8: x=50: y=60"
-  /usr/bin/avconv -i $1://$url$2:$5$complement -s $8 -frames:v 1  -an -vf "$displayInfo" -y $3/snapshot_$4.jpg > $3/$4.log 2>&1
+  datetime=$(echo $(date +%d-%m-%Y" "%H\\:%M\\:%S))
+  displayInfo="drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf: text='$datetime':box=1:boxcolor=black@0.5: fontcolor=white@0.8: x='$posx': y='$posy'"
+  /usr/bin/avconv -analyzeduration 0 $format -i $1://$url$2:$5$complement -s $8 -frames:v 1 -an -vf "$displayInfo" -y $3/snapshot_$4.jpg > $3/$4.log 2>&1
 else
-  /usr/bin/avconv -i $1://$url$2:$5$complement -s $8 -frames:v 1  -an -y $3/snapshot_$4.jpg > $3/$4.log 2>&1
+  /usr/bin/avconv -analyzeduration 0 $format -i $1://$url$2:$5$complement -s $8 -frames:v 1 -an -y $3/snapshot_$4.jpg > $3/$4.log 2>&1
 fi
 done

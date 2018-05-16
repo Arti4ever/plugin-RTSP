@@ -29,7 +29,7 @@ case "$1" in
     start)
 	    complement=$(echo "@@url@@" | sed 's/[&]/\\&/g')
             echo "Starting RTSP Daemon for @@name@@..."
-            sh /usr/sbin/rtsp.sh @@protocole@@ @@ip@@ @@targetFolder@@ @@name@@ @@port@@ @@delay@@ $complement @@size@@ @@displayInfo@@ @@login@@ @@password@@ @@log@@
+            sh /usr/sbin/rtsp.sh @@protocole@@ @@ip@@ @@targetFolder@@ @@name@@ @@port@@ @@delay@@ $complement @@size@@ @@displayInfo@@ @@codec@@ @@infoposition@@ @@login@@ @@password@@ @@log@@ 
             echo $! > /run/rtsp-@@name@@.pid
             ;;
     stop)

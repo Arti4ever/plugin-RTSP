@@ -45,8 +45,10 @@ $sudo_prefix sed -i "s|\@\@url\@\@|$7|g" /etc/init.d/rtsp-service-$1
 #$sudo_prefix sed -i "s|=|\\\=|g" /etc/init.d/rtsp-service-$1
 $sudo_prefix sed -i "s|\@\@size\@\@|$8|g" /etc/init.d/rtsp-service-$1
 $sudo_prefix sed -i "s|\@\@displayInfo\@\@|$9|g" /etc/init.d/rtsp-service-$1
-$sudo_prefix sed -i "s|\@\@login\@\@|${10}|g" /etc/init.d/rtsp-service-$1
-$sudo_prefix sed -i "s|\@\@password\@\@|${11}|g" /etc/init.d/rtsp-service-$1
+$sudo_prefix sed -i "s|\@\@codec\@\@|${10}|g" /etc/init.d/rtsp-service-$1
+$sudo_prefix sed -i "s|\@\@infoposition\@\@|${11}|g" /etc/init.d/rtsp-service-$1
+$sudo_prefix sed -i "s|\@\@login\@\@|${12}|g" /etc/init.d/rtsp-service-$1
+$sudo_prefix sed -i "s|\@\@password\@\@|${13}|g" /etc/init.d/rtsp-service-$1
 $sudo_prefix sed -i "s|\@\@log\@\@| >/dev/null 2>\&1 < /dev/null \&|g" /etc/init.d/rtsp-service-$1
 $sudo_prefix chmod +x /etc/init.d/rtsp-service-$1
 $sudo_prefix update-rc.d rtsp-service-$1 defaults

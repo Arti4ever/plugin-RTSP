@@ -150,6 +150,14 @@ class RTSP extends eqLogic
         if (preg_match("/\\s/", $this->getConfiguration('name'))) {
             throw new \Exception(__('Le champs Nom ne peut contenir d\'espaces', __FILE__));
         }
+      	// Si la chaîne contient des caractères spéciaux
+		if (!preg_match("#[a-zA-Z0-9_-]$#", $this->getConfiguration('codec'))) {
+    	throw new Exception(__('Le champs codec ne peut contenir de caractères spéciaux', __FILE__));
+		}
+		// Si la chaîne contient des caractères spéciaux
+		if (preg_match("/\\s/", $this->getConfiguration('codec'))) {
+			throw new Exception(__('Le champs codec ne peut contenir d\'espaces', __FILE__));
+		}
         if ($this->getConfiguration('size') == '') {
             throw new \Exception(__('Le champs résolution ne peut être vide', __FILE__));
         }
@@ -194,8 +202,13 @@ class RTSP extends eqLogic
         }
         $this->setConfiguration('serviceName', $this->getConfiguration('name'));
         $this->setConfiguration('folderLog', $this->getConfiguration('targetFolder'));
-    }
-
+        if ($this->getConfiguration('codec') == '') {
+          $this->setConfiguration('codec', 'auto');
+		}
+        if ($this->getConfiguration('infoposition') == '') {
+          $this->setConfiguration('infoposition', 'h_gauche');
+        }
+	}
     public function postSave()
     {
         foreach (eqLogic::byType('RTSP') as $RTSP) {
@@ -208,9 +221,9 @@ class RTSP extends eqLogic
             $URL = escapeshellarg($this->getConfiguration('url'));
             $URL = str_replace("&", "\&", $URL);
             $URL = str_replace("?", "\?", $URL);
-            $cmd = '/bin/bash ' . dirname(__FILE__) . '/../../3rdparty/create.sh ' . $this->getConfiguration('name') . ' ' . str_replace("/", "\\/", rtrim($this->getConfiguration('targetFolder'), "/")) . ' ' . $this->getConfiguration('protocole', 'rtsp') . ' ' . $this->getConfiguration('ip') . ' ' . $this->getConfiguration('port') . ' ' . $this->getConfiguration('delay') . ' ' . $URL . ' ' . $this->getConfiguration('size') . ' ' . $this->getConfiguration('displayInfo') . ' ' . $this->getConfiguration('login') . ' ' . $this->getConfiguration('password');
+	    $cmd = '/bin/bash ' .dirname(__FILE__) . '/../../3rdparty/create.sh ' . $this->getConfiguration('name') . ' ' . str_replace("/","\\/",rtrim($this->getConfiguration('targetFolder'), "/" )) . ' ' . $this->getConfiguration('protocole', 'rtsp') . ' ' . $this->getConfiguration('ip') . ' ' . $this->getConfiguration('port') . ' ' . $this->getConfiguration('delay') . ' ' . $URL . ' ' . $this->getConfiguration('size') . ' ' . $this->getConfiguration('displayInfo') . ' ' . $this->getConfiguration('codec') . ' ' . $this->getConfiguration('infoposition') . ' ' . $this->getConfiguration('login') . ' ' . $this->getConfiguration('password');
             $cmd .= ' >> ' . log::getPathToLog('RTSP_create') . ' 2>&1 &';
-            exec('echo Create/Update Service Name : ' . $this->getConfiguration('name') . ' Protocole : ' . $this->getConfiguration('protocole', 'rtsp') . ' IP : ' . $this->getConfiguration('ip') . ' Emplacement : ' . str_replace("/", "\\/", rtrim($this->getConfiguration('targetFolder'), "/")) . ' Port : ' . $this->getConfiguration('port') . ' Delay : ' . $this->getConfiguration('delay') . ' Size : ' . $this->getConfiguration('size') . ' URL : ' . $URL . ' Horodatage : ' . $this->getConfiguration('displayInfo') . ' ' . ' Utilisateur : ' . $this->getConfiguration('login') . ' >> ' . log::getPathToLog('RTSP_create') . ' 2>&1 &');
+	    exec('echo Create/Update Service Name : ' . $this->getConfiguration('name') . ' Protocole : ' . $this->getConfiguration('protocole', 'rtsp') . ' IP : ' . $this->getConfiguration('ip') . ' Emplacement : ' . str_replace("/","\\/",rtrim($this->getConfiguration('targetFolder'), "/" )) . ' Port : ' . $this->getConfiguration('port') . ' Delay : ' . $this->getConfiguration('delay') . ' Size : ' . $this->getConfiguration('size'). ' URL : ' . $URL . ' Horodatage : ' . $this->getConfiguration('displayInfo') . ' ' . ' Utilisateur : ' . $this->getConfiguration('login') . ' Codec : ' . $this->getConfiguration('codec') .  ' Position : ' . $this->getConfiguration('infoposition') . ' >> ' . log::getPathToLog('RTSP_create') . ' 2>&1 &');
             exec($cmd);
         } else {
             $cmd = '/bin/bash ' . dirname(__FILE__) . '/../../3rdparty/stop.sh ' . $this->getConfiguration('name');

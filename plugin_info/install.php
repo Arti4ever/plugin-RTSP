@@ -40,6 +40,9 @@ function RTSP_install() {
 function RTSP_update() {
   exec('../3rdparty/reset.sh');
   $captures_path = dirname(__FILE__) . '/../captures';
+  if (!file_exists($captures_path) && !is_dir($captures_path)) {
+      mkdir($captures_path);
+  }
   exec('rm -rf '. $captures_path . '/*');
   exec('../3rdparty/addsymblinkstoapache.sh');
   /*  $cron = cron::byClassAndFunction('RTSP', 'pull');

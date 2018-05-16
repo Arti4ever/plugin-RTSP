@@ -18,6 +18,9 @@
 require_once dirname(__FILE__) . '/../../../core/php/core.inc.php';
 function RTSP_install() {
   $captures_path = dirname(__FILE__) . '/../captures';
+  if (!file_exists($captures_path) && !is_dir($captures_path)) {
+      mkdir($captures_path);
+  }
   exec('rm -rf '. $captures_path . '/*');
   exec('../3rdparty/addsymblinkstoapache.sh');
 /*

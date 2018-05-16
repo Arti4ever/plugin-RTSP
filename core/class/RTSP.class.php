@@ -162,20 +162,9 @@ class RTSP extends eqLogic
             throw new \Exception(__('Le champs résolution ne peut être vide', __FILE__));
         }
         // Si la chaîne contient des caractères spéciaux
-        if (!preg_match($this->pregMatchPaternConfiguration(), $this->getConfiguration('size'))) {
-            if (!preg_match($this->pregMatchPaternConfiguration(), $this->getConfiguration('size'))) {
-                if (!preg_match($this->pregMatchPaternConfiguration(), $this->getConfiguration('size'))) {
-                    if (!preg_match($this->pregMatchPaternConfiguration(), $this->getConfiguration('size'))) {
-                        throw new \Exception(__('Le champs Résolution doit être au format nombrexnombre (ex 1280x720)', __FILE__));
-                    }
-                }
-            }
+        if (!preg_match("#[0-9]{3,4}x[0-9]{3,4}#", $this->getConfiguration('size'))) {
+            throw new \Exception(__('Le champs Résolution doit être au format nombrexnombre (ex 1280x720)', __FILE__));
         }
-    }
-
-    private function pregMatchPaternConfiguration()
-    {
-        return "#[0-9][0-9][0-9][0-9]x[0-9][0-9][0-9][0-9]$#";
     }
 
     public function preSave()
